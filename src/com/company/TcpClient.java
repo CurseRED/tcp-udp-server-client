@@ -42,7 +42,7 @@ public class TcpClient {
     }
 
     public class Resender extends Thread {
-        private boolean isStoped;
+        private boolean isStoped = false;
 
         public void setStop() {
             isStoped = true;
