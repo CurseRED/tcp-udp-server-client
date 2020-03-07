@@ -1,6 +1,8 @@
 package com.company;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -22,9 +24,8 @@ public class UdpClient implements NetworkClient{
         try {
             buffer = new byte[512];
             datagramSocket = new DatagramSocket();
-            System.out.println("Client created! Type something to connect the server!");
-            resender = new Resender();
-            resender.start();
+            System.out.println("Client created!");
+            sendMessage("Connect");
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -32,7 +33,8 @@ public class UdpClient implements NetworkClient{
 
     @Override
     public void startChat() {
-
+        resender = new Resender();
+        resender.start();
     }
 
     @Override
@@ -52,12 +54,28 @@ public class UdpClient implements NetworkClient{
 
     @Override
     public void sendFile(File file) {
-
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] data = fileInputStream.readAllBytes();
+            datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(ip), port);
+            datagramSocket.send(datagramPacket);
+            System.out.println("File was successfully sent!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void getFile(File file) {
-
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            datagramPacket = new DatagramPacket(buffer, buffer.length);
+            datagramSocket.receive(datagramPacket);
+            fileOutputStream.write(buffer);
+            System.out.println("File received successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

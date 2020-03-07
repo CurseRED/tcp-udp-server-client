@@ -74,11 +74,11 @@ public class Main {
                 tcpClient.disconnect();
             }
         } else {
-            UdpServer udpServer = new UdpServer();
-            udpServer.start(7777);
             System.out.print("Start server or client? (0 - server, other - client): ");
             answer = in.nextInt();
             if (answer == 0) {
+                UdpServer udpServer = new UdpServer();
+                udpServer.start(7777);
                 System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
                 answer = in.nextInt();
                 if (answer == 0) {
@@ -93,12 +93,18 @@ public class Main {
                                 udpServer.sendMessage(msg);
                         }
                     }
+                    udpServer.stop();
                 } else if (answer == 1) {
-
+                    System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
+                    answer = in.nextInt();
+                    if (answer == 0) {
+                        udpServer.sendFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverFile.txt"));
+                    } else {
+                        udpServer.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverReceivedFile.txt"));
+                    }
                 } else {
 
                 }
-                udpServer.stop();
             } else {
                 UdpClient udpClient = new UdpClient();
                 udpClient.connect("localhost", 7777);
@@ -116,12 +122,18 @@ public class Main {
                                 udpClient.sendMessage(msg);
                         }
                     }
+                    udpClient.disconnect();
                 } else if (answer == 1) {
-
+                    System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
+                    answer = in.nextInt();
+                    if (answer == 0) {
+                        udpClient.sendFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientFile.txt"));
+                    } else {
+                        udpClient.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientReceivedFile.txt"));
+                    }
                 } else {
 
                 }
-                udpClient.disconnect();
             }
         }
 
