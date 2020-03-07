@@ -2,6 +2,7 @@ package com.company;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Random;
 
 public class TcpClient implements NetworkClient{
     private Socket clientSocket;
@@ -73,7 +74,30 @@ public class TcpClient implements NetworkClient{
 
     @Override
     public void getConnectionSpeed() {
-
+        byte[] data = new byte[1024];
+        Random random = new Random();
+        random.nextBytes(data);
+        long startTime = System.nanoTime();
+        try {
+            OutputStream outputStream = clientSocket.getOutputStream();
+            for (int i = 0; i < 128; i++) {
+                outputStream.write(data);
+                System.out.println("Sending 128 packets: " + (1 + i) + "\\128");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long endTime = System.nanoTime();
+        float count = 0;
+        try {
+            System.out.println("Waiting for response...");
+            InputStream inputStream = clientSocket.getInputStream();
+            count = (float)inputStream.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Transfer speed is " + ((count)/((float)(endTime - startTime)/1000000000)) + "kB/s");
+        System.out.println("Packets received: " + (100*count/128) + "%");
     }
 
     public class Resender extends Thread {

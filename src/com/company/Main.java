@@ -30,6 +30,7 @@ public class Main {
                                 tcpServer.sendMessage(msg);
                         }
                     }
+                    tcpServer.stop();
                 } else if (answer == 1) {
                     System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
                     answer = in.nextInt();
@@ -39,9 +40,8 @@ public class Main {
                         tcpServer.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverReceivedFile.txt"));
                     }
                 } else {
-
+                    tcpServer.getConnectionSpeed();
                 }
-                tcpServer.stop();
             } else {
                 TcpClient tcpClient = new TcpClient();
                 tcpClient.connect("localhost", 7777);
@@ -60,6 +60,7 @@ public class Main {
                                 tcpClient.sendMessage(msg);
                         }
                     }
+                    tcpClient.disconnect();
                 } else if (answer == 1) {
                     System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
                     answer = in.nextInt();
@@ -69,9 +70,8 @@ public class Main {
                         tcpClient.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientReceivedFile.txt"));
                     }
                 } else {
-
+                    tcpClient.getConnectionSpeed();
                 }
-                tcpClient.disconnect();
             }
         } else {
             System.out.print("Start server or client? (0 - server, other - client): ");
