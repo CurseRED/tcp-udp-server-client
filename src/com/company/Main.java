@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
@@ -14,66 +15,111 @@ public class Main {
             if (answer == 0) {
                 TcpServer tcpServer = new TcpServer();
                 tcpServer.start(7777);
-                String msg;
-                boolean flag = true;
-                while (flag) {
-                    System.out.println("KKEKEKEK");
-                    msg = in.nextLine();
-                    if (msg.equalsIgnoreCase("!stop")) {
-                        flag = false;
-                    } else {
-                        if (!msg.isEmpty())
-                            tcpServer.sendMessage(msg);
+                System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
+                answer = in.nextInt();
+                if (answer == 0) {
+                    tcpServer.startChat();
+                    String msg;
+                    boolean flag = true;
+                    while (flag) {
+                        msg = in.nextLine();
+                        if (msg.equalsIgnoreCase("!stop")) {
+                            flag = false;
+                        } else {
+                            if (!msg.isEmpty())
+                                tcpServer.sendMessage(msg);
+                        }
                     }
+                } else if (answer == 1) {
+                    System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
+                    answer = in.nextInt();
+                    if (answer == 0) {
+                        tcpServer.sendFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverFile.txt"));
+                    } else {
+                        tcpServer.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverReceivedFile.txt"));
+                    }
+                } else {
+
                 }
                 tcpServer.stop();
             } else {
                 TcpClient tcpClient = new TcpClient();
                 tcpClient.connect("localhost", 7777);
-                String msg;
-                boolean flag = true;
-                while (flag) {
-                    msg = in.nextLine();
-                    if (msg.equalsIgnoreCase("!stop")) {
-                        flag = false;
-                    } else {
-                        if (!msg.isEmpty())
-                            tcpClient.sendMessage(msg);
+                System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
+                answer = in.nextInt();
+                if (answer == 0) {
+                    tcpClient.startChat();
+                    String msg;
+                    boolean flag = true;
+                    while (flag) {
+                        msg = in.nextLine();
+                        if (msg.equalsIgnoreCase("!stop")) {
+                            flag = false;
+                        } else {
+                            if (!msg.isEmpty())
+                                tcpClient.sendMessage(msg);
+                        }
                     }
+                } else if (answer == 1) {
+                    System.out.print("Do you want to send or receive file? (0 - send, other - receive): ");
+                    answer = in.nextInt();
+                    if (answer == 0) {
+                        tcpClient.sendFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientFile.txt"));
+                    } else {
+                        tcpClient.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientReceivedFile.txt"));
+                    }
+                } else {
+
                 }
                 tcpClient.disconnect();
             }
         } else {
+            UdpServer udpServer = new UdpServer();
+            udpServer.start(7777);
             System.out.print("Start server or client? (0 - server, other - client): ");
             answer = in.nextInt();
             if (answer == 0) {
-                UdpServer udpServer = new UdpServer();
-                udpServer.start(7777);
-                String msg;
-                boolean flag = true;
-                while (flag) {
-                    msg = in.nextLine();
-                    if (msg.equalsIgnoreCase("!stop")) {
-                        flag = false;
-                    } else {
-                        if (!msg.isEmpty())
-                            udpServer.sendMessage(msg);
+                System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
+                answer = in.nextInt();
+                if (answer == 0) {
+                    String msg;
+                    boolean flag = true;
+                    while (flag) {
+                        msg = in.nextLine();
+                        if (msg.equalsIgnoreCase("!stop")) {
+                            flag = false;
+                        } else {
+                            if (!msg.isEmpty())
+                                udpServer.sendMessage(msg);
+                        }
                     }
+                } else if (answer == 1) {
+
+                } else {
+
                 }
                 udpServer.stop();
             } else {
                 UdpClient udpClient = new UdpClient();
                 udpClient.connect("localhost", 7777);
-                String msg;
-                boolean flag = true;
-                while (flag) {
-                    msg = in.nextLine();
-                    if (msg.equalsIgnoreCase("!stop")) {
-                        flag = false;
-                    } else {
-                        if (!msg.isEmpty())
-                            udpClient.sendMessage(msg);
+                System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
+                answer = in.nextInt();
+                if (answer == 0) {
+                    String msg;
+                    boolean flag = true;
+                    while (flag) {
+                        msg = in.nextLine();
+                        if (msg.equalsIgnoreCase("!stop")) {
+                            flag = false;
+                        } else {
+                            if (!msg.isEmpty())
+                                udpClient.sendMessage(msg);
+                        }
                     }
+                } else if (answer == 1) {
+
+                } else {
+
                 }
                 udpClient.disconnect();
             }

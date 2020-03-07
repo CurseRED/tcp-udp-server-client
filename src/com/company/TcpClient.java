@@ -12,11 +12,9 @@ public class TcpClient implements NetworkClient{
     public void connect(String ip, int port) {
         try {
             clientSocket = new Socket(ip, port);
-            System.out.println("Connected to server! You can type now!");
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            TcpClient.Resender resender = new TcpClient.Resender();
-            resender.start();
+            System.out.println("Connected to server! You can type now!");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -25,8 +23,6 @@ public class TcpClient implements NetworkClient{
     @Override
     public void disconnect() {
         try {
-            in.close();
-            out.close();
             clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,8 +40,35 @@ public class TcpClient implements NetworkClient{
     }
 
     @Override
-    public void sendFile() {
+    public void sendFile(File file) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(clientSocket.getOutputStream());
+            bufferedOutputStream.write(fileInputStream.readAllBytes());
+            if (in.readLine().equalsIgnoreCase("File received!")) {
+                System.out.println("File was successfully sent!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void startChat() {
+        Resender resender = new Resender();
+        resender.start();
+    }
+
+    @Override
+    public void getFile(File file) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            InputStream inputStream = clientSocket.getInputStream();
+            fileOutputStream.write(inputStream.readAllBytes());
+            System.out.println("File received successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

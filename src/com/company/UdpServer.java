@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -12,6 +13,11 @@ public class UdpServer implements NetworkServer {
     private Resender resender;
     private InetAddress clientAddress;
     private int clientPort;
+
+    @Override
+    public void startChat() {
+
+    }
 
     @Override
     public void start(int port) {
@@ -47,7 +53,12 @@ public class UdpServer implements NetworkServer {
     }
 
     @Override
-    public void sendFile() {
+    public void sendFile(File file) {
+
+    }
+
+    @Override
+    public void getFile(File file) {
 
     }
 

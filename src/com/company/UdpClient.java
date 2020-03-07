@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -30,6 +31,11 @@ public class UdpClient implements NetworkClient{
     }
 
     @Override
+    public void startChat() {
+
+    }
+
+    @Override
     public void disconnect() {
         resender.setStop();
     }
@@ -45,7 +51,12 @@ public class UdpClient implements NetworkClient{
     }
 
     @Override
-    public void sendFile() {
+    public void sendFile(File file) {
+
+    }
+
+    @Override
+    public void getFile(File file) {
 
     }
 

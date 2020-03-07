@@ -14,23 +14,24 @@ public class TcpServer implements NetworkServer{
     public void start(int port) {
         try {
             serverSocket = new ServerSocket(port);
-            System.out.println("Server created!");
             clientSocket = serverSocket.accept();
-            System.out.println("Connection accepted! You can type now!");
             out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            Resender resender = new Resender();
-            resender.start();
+            System.out.println("Connection accepted! You can type now!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
+    public void startChat() {
+        Resender resender = new Resender();
+        resender.start();
+    }
+
+    @Override
     public void stop() {
         try {
-            in.close();
-            out.close();
             clientSocket.close();
             serverSocket.close();
         } catch (IOException e) {
@@ -49,8 +50,27 @@ public class TcpServer implements NetworkServer{
     }
 
     @Override
-    public void sendFile() {
+    public void sendFile(File file) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream outputStream = clientSocket.getOutputStream();
+            outputStream.write(fileInputStream.readAllBytes());
+            System.out.println("File was successfully sent!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void getFile(File file) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            InputStream inputStream = clientSocket.getInputStream();
+            fileOutputStream.write(inputStream.readAllBytes());
+            System.out.println("File received successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
