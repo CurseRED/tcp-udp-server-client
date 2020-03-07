@@ -78,7 +78,23 @@ public class UdpServer implements NetworkServer {
 
     @Override
     public void getConnectionSpeed() {
-
+        try {
+            System.out.println("Receiving packets...");
+            byte counter = -1;
+            byte[] data = new byte[1024];
+            datagramPacket = new DatagramPacket(data, data.length);
+            while (counter < 127) {
+                datagramSocket.receive(datagramPacket);
+                System.out.println("Received packets: " + (counter + 2) + "\\128");
+                counter++;
+            }
+            data[0] = counter;
+            datagramPacket = new DatagramPacket(data, 1, clientAddress, clientPort);
+            datagramSocket.send(datagramPacket);
+            System.out.println("Response sent");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private class Resender extends Thread {

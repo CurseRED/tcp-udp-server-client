@@ -103,7 +103,7 @@ public class Main {
                         udpServer.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\serverReceivedFile.txt"));
                     }
                 } else {
-
+                    udpServer.getConnectionSpeed();
                 }
             } else {
                 UdpClient udpClient = new UdpClient();
@@ -132,7 +132,7 @@ public class Main {
                         udpClient.getFile(new File("C:\\Users\\Admin\\IdeaProjects\\tcp-udp-client-server\\src\\clientReceivedFile.txt"));
                     }
                 } else {
-
+                    udpClient.getConnectionSpeed();
                 }
             }
         }

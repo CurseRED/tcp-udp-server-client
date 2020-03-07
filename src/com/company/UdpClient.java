@@ -1,13 +1,11 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.Random;
 
 public class UdpClient implements NetworkClient{
     private byte[] buffer;
@@ -80,7 +78,32 @@ public class UdpClient implements NetworkClient{
 
     @Override
     public void getConnectionSpeed() {
-
+        byte[] data = new byte[1024];
+        Random random = new Random();
+        random.nextBytes(data);
+        long startTime = System.nanoTime();
+        try {
+            datagramPacket = new DatagramPacket(data, data.length, InetAddress.getByName(ip), port);
+            for (int i = 0; i < 128; i++) {
+                datagramSocket.send(datagramPacket);
+                System.out.println("Sending 128 packets: " + (1 + i) + "\\128");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        float count = 0;
+        try {
+            System.out.println("Waiting for response...");
+            datagramPacket = new DatagramPacket(data, 1, InetAddress.getByName(ip), port);
+            datagramSocket.receive(datagramPacket);
+            count = data[0];
+            count++;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long endTime = System.nanoTime();
+        System.out.println("Transfer speed is " + ((count)/((float)(endTime - startTime)/1000000000)) + "kB/s");
+        System.out.println("Packets received: " + (100*count/128) + "%");
     }
 
     private class Resender extends Thread {

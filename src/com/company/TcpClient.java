@@ -87,7 +87,6 @@ public class TcpClient implements NetworkClient{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long endTime = System.nanoTime();
         float count = 0;
         try {
             System.out.println("Waiting for response...");
@@ -96,6 +95,7 @@ public class TcpClient implements NetworkClient{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        long endTime = System.nanoTime();
         System.out.println("Transfer speed is " + ((count)/((float)(endTime - startTime)/1000000000)) + "kB/s");
         System.out.println("Packets received: " + (100*count/128) + "%");
     }
