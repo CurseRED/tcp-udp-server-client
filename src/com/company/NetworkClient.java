@@ -1,8 +1,8 @@
 package com.company;
 
 public interface NetworkClient {
-    void startConnection(String ip, int port);
-    void stopConnection();
+    void connect(String ip, int port);
+    void disconnect();
     void sendMessage(String msg);
     void sendFile();
     void getConnectionSpeed();
