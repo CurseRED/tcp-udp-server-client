@@ -52,7 +52,9 @@ public class TcpClient implements NetworkClient{
             FileInputStream fileInputStream = new FileInputStream(file);
             OutputStream outputStream = clientSocket.getOutputStream();
             outputStream.write(fileInputStream.readAllBytes());
-            System.out.println("File was successfully sent!");
+            outputStream.flush();
+            System.out.println("File sent successfully!");
+            clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,6 +67,7 @@ public class TcpClient implements NetworkClient{
             InputStream inputStream = clientSocket.getInputStream();
             fileOutputStream.write(inputStream.readAllBytes());
             System.out.println("File received successfully!");
+            clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
