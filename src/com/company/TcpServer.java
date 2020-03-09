@@ -79,12 +79,12 @@ public class TcpServer implements NetworkServer{
             InputStream inputStream = clientSocket.getInputStream();
             System.out.println("Receiving packets...");
             int result = inputStream.read();
-            int counter = 1;
+            int counter = 0;
             byte[] data = new byte[1024];
             while (result != -1 && counter < 128) {
                 result = inputStream.read(data);
-                System.out.println("Received packets: " + counter + "\\128");
                 counter++;
+                System.out.println("Received packets: " + counter + "\\128");
             }
             OutputStream outputStream = clientSocket.getOutputStream();
             outputStream.write(counter);

@@ -117,6 +117,7 @@ public class UdpClient implements NetworkClient{
         public void run() {
             try {
                 while (!isStoped) {
+                    byte[] buffer = new byte[1024];
                     datagramPacket = new DatagramPacket(buffer, buffer.length);
                     datagramSocket.receive(datagramPacket);
                     System.out.println("Server: " + new String(buffer, 0, datagramPacket.getLength()));

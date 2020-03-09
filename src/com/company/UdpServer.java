@@ -108,6 +108,7 @@ public class UdpServer implements NetworkServer {
         public void run() {
             try {
                 while (!isStoped) {
+                    byte[] buffer = new byte[1024];
                     datagramPacket = new DatagramPacket(buffer, buffer.length);
                     datagramSocket.receive(datagramPacket);
                     System.out.println("Client: " + new String(buffer, 0, datagramPacket.getLength()));

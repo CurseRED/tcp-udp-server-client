@@ -82,6 +82,7 @@ public class Main {
                 System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
                 answer = in.nextInt();
                 if (answer == 0) {
+                    udpServer.startChat();
                     String msg;
                     boolean flag = true;
                     while (flag) {
@@ -111,6 +112,7 @@ public class Main {
                 System.out.print("What do you want to do? (0 - chat, 1 - file transmission, other - measure speed): ");
                 answer = in.nextInt();
                 if (answer == 0) {
+                    udpClient.startChat();
                     String msg;
                     boolean flag = true;
                     while (flag) {

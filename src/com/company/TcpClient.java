@@ -41,23 +41,21 @@ public class TcpClient implements NetworkClient{
     }
 
     @Override
-    public void sendFile(File file) {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(clientSocket.getOutputStream());
-            bufferedOutputStream.write(fileInputStream.readAllBytes());
-            if (in.readLine().equalsIgnoreCase("File received!")) {
-                System.out.println("File was successfully sent!");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void startChat() {
         Resender resender = new Resender();
         resender.start();
+    }
+
+    @Override
+    public void sendFile(File file) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            OutputStream outputStream = clientSocket.getOutputStream();
+            outputStream.write(fileInputStream.readAllBytes());
+            System.out.println("File was successfully sent!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
